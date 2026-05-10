@@ -300,39 +300,87 @@
     }
 
     function showFileName(event) {
-      const file = event.target.files[0];
+      try {
+        const file = event.target.files[0];
 
-      if (!file) return;
+        if (!file) {
+          alert('الرجاء اختيار ملف');
+          return;
+        }
 
-      const subjectTitle = document.getElementById('subjectTitle');
-      const subjectText = subjectTitle ? subjectTitle.innerText : 'مادة عامة';
+        if (!currentSubject) {
+          alert('اختر المادة أولاً');
+          return;
+        }
 
-      const reader = new FileReader();
+        if (!currentLevel) {
+          alert('اختر السنة الدراسية أولاً');
+          return;
+        }
 
-      reader.onload = function(e) {
-        const fileData = {
-          name: file.name,
-          data: e.target.result,
-          subject: currentSubject || 'general',
-          subjectTitle: subjectText,
-          level: currentLevel || 'بدون سنة'
+        const subjectTitle = document.getElementById('subjectTitle');
+        const subjectText = subjectTitle ? subjectTitle.innerText : 'مادة عامة';
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          try {
+            const fileData = {
+              name: file.name,
+              data: e.target.result,
+              subject: currentSubject,
+              subjectTitle: subjectText,
+              level: currentLevel,
+              type: file.type
+            };
+
+            savedFilesData.push(fileData);
+            localStorage.setItem('savedFilesData', JSON.stringify(savedFilesData));
+
+            const folderFiles = getOrCreateFolder(
+              fileData.subject,
+              fileData.level,
+              fileData.subjectTitle
+            );
+
+            createFileCard(fileData, folderFiles);
+
+            alert('تم رفع الملف بنجاح ✅');
+          } catch (err) {
+            console.error(err);
+            alert('حدث خطأ أثناء حفظ الملف');
+          }
         };
 
-        savedFilesData.push(fileData);
-        localStorage.setItem('savedFilesData', JSON.stringify(savedFilesData));
+        reader.onerror = function() {
+          alert('فشل في قراءة الملف');
+        };
 
-        const folderFiles = getOrCreateFolder(fileData.subject, fileData.level, fileData.subjectTitle);
-        createFileCard(fileData, folderFiles);
-      };
-
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      } catch (error) {
+        console.error(error);
+        alert('حدث خطأ أثناء رفع الملف');
+      }
     }
 
     window.onload = function() {
-      savedFilesData.forEach(fileData => {
-        const folderFiles = getOrCreateFolder(fileData.subject, fileData.level, fileData.subjectTitle);
-        createFileCard(fileData, folderFiles);
-      });
+      try {
+        if (!Array.isArray(savedFilesData)) {
+          savedFilesData = [];
+        }
+
+        savedFilesData.forEach(fileData => {
+          const folderFiles = getOrCreateFolder(
+            fileData.subject,
+            fileData.level,
+            fileData.subjectTitle
+          );
+
+          createFileCard(fileData, folderFiles);
+        });
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     console.assert(typeof toggleSubject === 'function', 'toggleSubject should exist');
