@@ -165,7 +165,26 @@
     </p>
   </footer>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
+    import { getFirestore, collection, addDoc, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: 'AIzaSyAFzjnMxbcgoN2mhBhqu_RIFp5nUhGGAOw',
+      authDomain: 'school-site-a2844.firebaseapp.com',
+      projectId: 'school-site-a2844',
+      storageBucket: 'school-site-a2844.firebasestorage.app',
+      messagingSenderId: '879608507615',
+      appId: '1:879608507615:web:98decdca8a2031c15f0d6a',
+      measurementId: 'G-4MT4Z4PDW0'
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+    const db = getFirestore(app);
+
+    console.log('Firebase connected successfully');
     let currentSubject = null;
     let currentLevel = '';
     let savedFilesData = [];
@@ -353,12 +372,39 @@
                 return;
               }
 
-              savedFilesData.push(fileData);
-
-              localStorage.setItem(
-                'savedFilesData',
-                JSON.stringify(savedFilesData)
+              const storageRef = ref(
+                storage,
+                `files/${Date.now()}-${file.name}`
               );
+
+              uploadBytes(storageRef, file).then(async(snapshot) => {
+                const downloadURL = await getDownloadURL(snapshot.ref);
+
+                const firebaseFileData = {
+                  name: file.name,
+                  data: downloadURL,
+                  subject: currentSubject,
+                  subjectTitle: subjectText,
+                  level: currentLevel,
+                  type: file.type,
+                  createdAt: Date.now()
+                };
+
+                await addDoc(collection(db, 'files'), firebaseFileData);
+
+                const folderFiles = getOrCreateFolder(
+                  firebaseFileData.subject,
+                  firebaseFileData.level,
+                  firebaseFileData.subjectTitle
+                );
+
+                createFileCard(firebaseFileData, folderFiles);
+
+                alert('تم رفع الملف إلى الإنترنت بنجاح ✅');
+              }).catch((error) => {
+                console.error(error);
+                alert('فشل رفع الملف إلى Firebase');
+              });
             } catch (storageError) {
               console.error(storageError);
               alert('فشل الحفظ: مساحة التخزين ممتلئة');
@@ -391,13 +437,13 @@
       }
     }
 
-    window.onload = function() {
+    window.onload = async function() {
       try {
-        if (!Array.isArray(savedFilesData)) {
-          savedFilesData = [];
-        }
+        const querySnapshot = await getDocs(collection(db, 'files'));
 
-        savedFilesData.forEach(fileData => {
+        querySnapshot.forEach((doc) => {
+          const fileData = doc.data();
+
           const folderFiles = getOrCreateFolder(
             fileData.subject,
             fileData.level,
@@ -406,8 +452,11 @@
 
           createFileCard(fileData, folderFiles);
         });
+
+        console.log('Files loaded successfully');
       } catch (error) {
         console.error(error);
+        alert('فشل تحميل الملفات من الإنترنت');
       }
     };
 
