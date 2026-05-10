@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تعلم اليوم وابدع غدا</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.75)),
+        url('https://cdn.pixabay.com/photo/2016/11/29/09/32/children-1869265_1280.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-gray-800">
+
+  <header class="bg-white/90 backdrop-blur-md shadow-md sticky top-0 z-50 border-b border-white/40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col lg:flex-row items-center justify-between gap-5">
+
+      <div class="flex items-center gap-3">
+        <div class="text-5xl">📚</div>
+
+        <div>
+          <h1 class="text-3xl font-extrabold text-blue-700">
+            تعلم اليوم وابدع غدا
+          </h1>
+
+          <p class="text-gray-500 text-sm">
+            منصة تعليمية للتعليم الابتدائي
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-4">
+
+        <button onclick="toggleSubject('math')"
+          class="bg-blue-500 text-white px-8 py-4 rounded-2xl text-xl font-bold shadow-lg hover:scale-105 transition-all duration-300">
+          📘 الرياضيات
+        </button>
+
+        <button onclick="toggleSubject('arabic')"
+          class="bg-green-500 text-white px-8 py-4 rounded-2xl text-xl font-bold shadow-lg hover:scale-105 transition-all duration-300">
+          📖 اللغة العربية
+        </button>
+
+        <button onclick="toggleSubject('science')"
+          class="bg-yellow-500 text-white px-8 py-4 rounded-2xl text-xl font-bold shadow-lg hover:scale-105 transition-all duration-300">
+          🧪 الايقاظ العلمي
+        </button>
+
+        <button onclick="toggleSubject('french')"
+          class="bg-pink-500 text-white px-8 py-4 rounded-2xl text-xl font-bold shadow-lg hover:scale-105 transition-all duration-300">
+          🗼 اللغة الفرنسية
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-20 items-center">
+
+    <div class="text-center lg:text-right">
+      <div class="inline-block bg-yellow-200 text-yellow-800 px-5 py-2 rounded-full font-bold mb-6 shadow">
+        ⭐ أفضل منصة تعليمية للأطفال
+      </div>
+
+      <h2 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6">
+        <span class="text-blue-700">تعلم بمتعة</span>
+        <br />
+        <span class="text-pink-500">وابدع بثقة</span>
+      </h2>
+
+      <p class="text-xl text-gray-700 leading-9 mb-8">
+        منصة تعليمية متكاملة تساعد التلاميذ على فهم الدروس بطريقة سهلة وممتعة.
+      </p>
+    </div>
+
+    <div class="flex justify-center">
+      <img
+        src="https://cdn.pixabay.com/photo/2024/03/31/16/07/ai-generated-8667761_1280.png"
+        class="w-full max-w-3xl object-contain"
+      />
+    </div>
+  </section>
+
+  <section id="subjectContent" class="hidden max-w-5xl mx-auto px-6 py-10">
+
+    <div class="bg-white rounded-[35px] shadow-2xl p-10 border border-gray-100">
+
+      <h2 id="subjectTitle"
+        class="text-4xl font-extrabold text-center text-blue-700 mb-10">
+      </h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
+
+        <button onclick="toggleLevel('السنة الأولى')"
+          class="bg-cyan-500 hover:bg-cyan-600 text-white py-4 rounded-2xl text-lg font-bold shadow-lg">
+          🎓 السنة الأولى
+        </button>
+
+        <button onclick="toggleLevel('السنة الثانية')"
+          class="bg-cyan-500 hover:bg-cyan-600 text-white py-4 rounded-2xl text-lg font-bold shadow-lg">
+          🎓 السنة الثانية
+        </button>
+
+        <button onclick="toggleLevel('السنة الثالثة')"
+          class="bg-cyan-500 hover:bg-cyan-600 text-white py-4 rounded-2xl text-lg font-bold shadow-lg">
+          🎓 السنة الثالثة
+        </button>
+
+        <button onclick="toggleLevel('السنة الرابعة')"
+          class="bg-cyan-500 hover:bg-cyan-600 text-white py-4 rounded-2xl text-lg font-bold shadow-lg">
+          🎓 السنة الرابعة
+        </button>
+
+        <button onclick="toggleLevel('السنة الخامسة')"
+          class="bg-cyan-500 hover:bg-cyan-600 text-white py-4 rounded-2xl text-lg font-bold shadow-lg">
+          🎓 السنة الخامسة
+        </button>
+
+        <button onclick="toggleLevel('السنة السادسة')"
+          class="bg-cyan-500 hover:bg-cyan-600 text-white py-4 rounded-2xl text-lg font-bold shadow-lg">
+          🎓 السنة السادسة
+        </button>
+      </div>
+
+      <div id="levelContent" class="hidden">
+
+        <h3 id="levelTitle"
+          class="text-3xl font-extrabold text-cyan-700 text-center mb-8">
+        </h3>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-10">
+
+          <button class="bg-red-500 hover:bg-red-600 text-white py-5 rounded-2xl text-xl font-bold shadow-xl">
+            📄 إضافة درس PDF
+          </button>
+
+          <button class="bg-blue-500 hover:bg-blue-600 text-white py-5 rounded-2xl text-xl font-bold shadow-xl">
+            📊 إضافة درس PPT
+          </button>
+
+          <button class="bg-green-500 hover:bg-green-600 text-white py-5 rounded-2xl text-xl font-bold shadow-xl">
+            📝 إضافة درس Word
+          </button>
+        </div>
+
+        <div id="mathButtons" class="hidden grid md:grid-cols-2 gap-6 mb-10">
+
+          <button onclick="toggleMath('الحساب')"
+            class="bg-indigo-500 hover:bg-indigo-600 text-white py-5 rounded-2xl text-2xl font-bold shadow-xl">
+            ➕ الحساب
+          </button>
+
+          <button onclick="toggleMath('الهندسة')"
+            class="bg-amber-500 hover:bg-amber-600 text-white py-5 rounded-2xl text-2xl font-bold shadow-xl">
+            📐 الهندسة
+          </button>
+        </div>
+
+        <div id="mathContent" class="hidden text-center">
+
+          <h3 id="mathTitle"
+            class="text-3xl font-extrabold text-purple-600 mb-6">
+          </h3>
+
+          <div class="grid md:grid-cols-3 gap-6">
+
+            <button class="bg-red-500 hover:bg-red-600 text-white py-5 rounded-2xl text-xl font-bold shadow-xl">
+              📄 إضافة درس PDF
+            </button>
+
+            <button class="bg-blue-500 hover:bg-blue-600 text-white py-5 rounded-2xl text-xl font-bold shadow-xl">
+              📊 إضافة درس PPT
+            </button>
+
+            <button class="bg-green-500 hover:bg-green-600 text-white py-5 rounded-2xl text-xl font-bold shadow-xl">
+              📝 إضافة درس Word
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-gray-900 text-white py-8 mt-10 text-center">
+    <p class="text-lg font-semibold">
+      © 2026 تعلم اليوم وابدع غدا - جميع الحقوق محفوظة
+    </p>
+  </footer>
+
+  <script>
+    let currentSubject = null;
+
+    function toggleSubject(subject) {
+      const section = document.getElementById('subjectContent');
+      const title = document.getElementById('subjectTitle');
+      const levelContent = document.getElementById('levelContent');
+      const mathButtons = document.getElementById('mathButtons');
+      const mathContent = document.getElementById('mathContent');
+
+      if (currentSubject === subject) {
+        section.classList.add('hidden');
+        currentSubject = null;
+        return;
+      }
+
+      currentSubject = subject;
+      section.classList.remove('hidden');
+      levelContent.classList.add('hidden');
+      mathButtons.classList.add('hidden');
+      mathContent.classList.add('hidden');
+
+      const names = {
+        math: '📘 الرياضيات',
+        arabic: '📖 اللغة العربية',
+        science: '🧪 الايقاظ العلمي',
+        french: '🗼 اللغة الفرنسية'
+      };
+
+      title.innerText = names[subject];
+
+      if (subject === 'math') {
+        mathButtons.classList.remove('hidden');
+      }
+    }
+
+    function toggleLevel(level) {
+      const levelContent = document.getElementById('levelContent');
+      const levelTitle = document.getElementById('levelTitle');
+
+      levelContent.classList.toggle('hidden');
+      levelTitle.innerText = '✨ ' + level;
+    }
+
+    function toggleMath(section) {
+      const mathContent = document.getElementById('mathContent');
+      const mathTitle = document.getElementById('mathTitle');
+
+      mathContent.classList.toggle('hidden');
+      mathTitle.innerText = '✨ قسم ' + section;
+    }
+  </script>
+
+</body>
+</html>
