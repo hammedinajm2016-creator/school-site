@@ -168,7 +168,18 @@
   <script>
     let currentSubject = null;
     let currentLevel = '';
-    let savedFilesData = JSON.parse(localStorage.getItem('savedFilesData') || '[]');
+    let savedFilesData = [];
+
+    try {
+      savedFilesData = JSON.parse(localStorage.getItem('savedFilesData') || '[]');
+
+      if (!Array.isArray(savedFilesData)) {
+        savedFilesData = [];
+      }
+    } catch (e) {
+      console.error('Storage parse error', e);
+      savedFilesData = [];
+    }
 
     function toggleSubject(subject) {
       const section = document.getElementById('subjectContent');
@@ -334,8 +345,25 @@
               type: file.type
             };
 
-            savedFilesData.push(fileData);
-            localStorage.setItem('savedFilesData', JSON.stringify(savedFilesData));
+            try {
+              const estimatedSize = e.target.result.length;
+
+              if (estimatedSize > 4000000) {
+                alert('الملف كبير جدًا، اختر ملفًا أصغر من 4MB');
+                return;
+              }
+
+              savedFilesData.push(fileData);
+
+              localStorage.setItem(
+                'savedFilesData',
+                JSON.stringify(savedFilesData)
+              );
+            } catch (storageError) {
+              console.error(storageError);
+              alert('فشل الحفظ: مساحة التخزين ممتلئة');
+              return;
+            }
 
             const folderFiles = getOrCreateFolder(
               fileData.subject,
