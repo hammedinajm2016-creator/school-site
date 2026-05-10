@@ -168,6 +168,7 @@
   <script>
     let currentSubject = null;
     let currentLevel = '';
+    let savedFilesData = JSON.parse(localStorage.getItem('savedFilesData') || '[]');
 
     function toggleSubject(subject) {
       const section = document.getElementById('subjectContent');
@@ -176,10 +177,7 @@
       const mathButtons = document.getElementById('mathButtons');
       const mathContent = document.getElementById('mathContent');
 
-      if (!section || !title) {
-        console.error('subjectTitle or subjectContent not found');
-        return;
-      }
+      if (!section || !title) return;
 
       if (currentSubject === subject) {
         section.classList.add('hidden');
@@ -231,18 +229,6 @@
 
       if (!file) return;
 
-      const supportedTypes = ['application/pdf',
-        'application/vnd.ms-powerpoint',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ];
-
-      if (!supportedTypes.includes(file.type)) {
-        alert('هذا النوع من الملفات غير مدعوم');
-        return;
-      }
-
       const reader = new FileReader();
 
       reader.onload = function(e) {
@@ -252,41 +238,55 @@
       reader.readAsDataURL(file);
     }
 
-    function showFileName(event) {
-      const file = event.target.files[0];
+    function createFileCard(fileData, folderFiles) {
+      const fileItem = document.createElement('div');
+      fileItem.className = 'bg-gray-50 shadow rounded-2xl p-4 flex items-center justify-between border border-gray-200';
 
-      if (!file) return;
+      fileItem.innerHTML = `
+        <div class="flex items-center gap-3">
+          <div class="text-3xl">📄</div>
+          <div>
+            <p class="font-bold text-lg text-gray-700">${fileData.name}</p>
+            <p class="text-sm text-gray-500">تم حفظ الملف داخل المتصفح</p>
+          </div>
+        </div>
 
+        <div class="flex gap-3">
+          <a href="${fileData.data}" target="_blank"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-xl font-bold shadow-lg transition-all duration-300">
+            👁 فتح
+          </a>
+
+          <a href="${fileData.data}" download="${fileData.name}"
+            class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-3 rounded-xl font-bold shadow-lg transition-all duration-300">
+            ⬇ تحميل
+          </a>
+        </div>
+      `;
+
+      folderFiles.prepend(fileItem);
+    }
+
+    function getOrCreateFolder(subject, level, subjectTitleText) {
       const filesList = document.getElementById('filesList');
       const uploadedFiles = document.getElementById('uploadedFiles');
-      const subjectTitle = document.getElementById('subjectTitle');
-
-      if (!filesList || !uploadedFiles || !subjectTitle) {
-        console.error('Required elements missing');
-        return;
-      }
 
       uploadedFiles.classList.remove('hidden');
 
-      const reader = new FileReader();
-
-      reader.onload = function(e) {
-        const fileURL = e.target.result;
-      const folderName = `${currentSubject || 'general'}-${currentLevel || 'بدون-سنة'}`;
-
-      let folder = document.getElementById(folderName);
+      const folderId = `${subject}-${level}`;
+      let folder = document.getElementById(folderId);
 
       if (!folder) {
         folder = document.createElement('div');
-        folder.id = folderName;
-        folder.className = 'bg-gradient-to-r from-blue-50 to-cyan-50 rounded-3xl p-5 shadow-2xl border-2 border-cyan-300';
+        folder.id = folderId;
+        folder.className = 'bg-gradient-to-r from-blue-50 to-cyan-50 rounded-3xl p-5 shadow-2xl border-2 border-cyan-300 mb-5';
 
         folder.innerHTML = `
           <div class="flex items-center gap-3 mb-5 border-b pb-3">
             <div class="text-5xl">📁</div>
             <div>
-              <h4 class="text-2xl font-extrabold text-blue-700">${currentLevel || 'بدون سنة'}</h4>
-              <p class="text-gray-500">${subjectTitle.innerText}</p>
+              <h4 class="text-2xl font-extrabold text-blue-700">${level}</h4>
+              <p class="text-gray-500">${subjectTitleText}</p>
             </div>
           </div>
 
@@ -296,53 +296,48 @@
         filesList.prepend(folder);
       }
 
-      const folderFiles = folder.querySelector('.folder-files');
+      return folder.querySelector('.folder-files');
+    }
 
-      const fileItem = document.createElement('div');
-      fileItem.className = 'bg-gray-50 shadow rounded-2xl p-4 flex items-center justify-between border border-gray-200';
+    function showFileName(event) {
+      const file = event.target.files[0];
 
-      fileItem.innerHTML = `
-        <div class="flex items-center gap-3">
-          <div class="text-3xl">📄</div>
-          <div>
-            <p class="font-bold text-lg text-gray-700">${file.name}</p>
-            <p class="text-sm text-gray-500">تم رفع الملف بنجاح</p>
-          </div>
-        </div>
+      if (!file) return;
 
-        <div class="flex gap-3">
-          <a href="${fileURL}" target="_blank"
-            class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-xl font-bold shadow-lg transition-all duration-300">
-            👁 فتح
-          </a>
+      const subjectTitle = document.getElementById('subjectTitle');
+      const subjectText = subjectTitle ? subjectTitle.innerText : 'مادة عامة';
 
-          <a href="${fileURL}" download="${file.name}"
-            class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-3 rounded-xl font-bold shadow-lg transition-all duration-300">
-            ⬇ تحميل
-          </a>
-        </div>
-      `;
+      const reader = new FileReader();
 
-      folderFiles.prepend(fileItem);
-        localStorage.setItem('savedFiles', filesList.innerHTML);
+      reader.onload = function(e) {
+        const fileData = {
+          name: file.name,
+          data: e.target.result,
+          subject: currentSubject || 'general',
+          subjectTitle: subjectText,
+          level: currentLevel || 'بدون سنة'
+        };
+
+        savedFilesData.push(fileData);
+        localStorage.setItem('savedFilesData', JSON.stringify(savedFilesData));
+
+        const folderFiles = getOrCreateFolder(fileData.subject, fileData.level, fileData.subjectTitle);
+        createFileCard(fileData, folderFiles);
       };
 
       reader.readAsDataURL(file);
     }
 
     window.onload = function() {
-      const saved = localStorage.getItem('savedFiles');
-
-      if (saved) {
-        document.getElementById('uploadedFiles').classList.remove('hidden');
-        document.getElementById('filesList').innerHTML = saved;
-      }
+      savedFilesData.forEach(fileData => {
+        const folderFiles = getOrCreateFolder(fileData.subject, fileData.level, fileData.subjectTitle);
+        createFileCard(fileData, folderFiles);
+      });
     };
 
     console.assert(typeof toggleSubject === 'function', 'toggleSubject should exist');
-    console.assert(typeof toggleLevel === 'function', 'toggleLevel should exist');
-    console.assert(typeof toggleMath === 'function', 'toggleMath should exist');
     console.assert(typeof showFileName === 'function', 'showFileName should exist');
+    console.assert(Array.isArray(savedFilesData), 'savedFilesData should be array');
   </script>
 
 </body>
