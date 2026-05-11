@@ -1,356 +1,78 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تعلم اليوم وابدع غدا</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    body {
-      font-family: Tahoma, sans-serif;
-      background: linear-gradient(rgba(219,234,254,0.85), rgba(191,219,254,0.85)),
-      url('https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1920&auto=format&fit=crop');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-    }
-  </style>
-</head>
-
-<body class="min-h-screen overflow-x-hidden text-gray-800">
-
-<header class="bg-white/95 shadow-xl sticky top-0 z-50 backdrop-blur-md">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
-    <div class="text-5xl">📚</div>
-
-    <div>
-      <h1 class="text-3xl font-extrabold text-blue-700">
-        تعلم اليوم وابدع غدا
-      </h1>
-
-      <p class="text-gray-500">
-        منصة تعليمية للتعليم الابتدائي
-      </p>
-    </div>
-  </div>
-</header>
-
-<div class="fixed right-4 top-32 z-50 flex flex-col gap-4">
-
-  <button onclick="toggleSubject('math')"
-    class="w-72 h-24 bg-pink-500 hover:bg-pink-600 text-white rounded-3xl text-3xl font-extrabold shadow-2xl transition">
-    📘 الرياضيات
-  </button>
-
-  <button onclick="toggleSubject('arabic')"
-    class="w-72 h-24 bg-yellow-500 hover:bg-yellow-600 text-white rounded-3xl text-3xl font-extrabold shadow-2xl transition">
-    📖 العربية
-  </button>
-
-  <button onclick="toggleSubject('science')"
-    class="w-72 h-24 bg-cyan-500 hover:bg-cyan-600 text-white rounded-3xl text-3xl font-extrabold shadow-2xl transition">
-    🧪 العلوم
-  </button>
-
-  <button onclick="toggleSubject('french')"
-    class="w-72 h-24 bg-green-500 hover:bg-green-600 text-white rounded-3xl text-3xl font-extrabold shadow-2xl transition">
-    🗼 الفرنسية
-  </button>
-</div>
-
-<section class="relative h-[500px] overflow-hidden flex items-center justify-center rounded-b-[50px] shadow-2xl">
-
-  <div id="heroBackground"
-    class="absolute inset-0 bg-cover bg-center"
-    style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1920&auto=format&fit=crop');">
-  </div>
-
-  <div class="absolute inset-0 bg-blue-900/40"></div>
-
-  <div class="relative z-10 text-center text-white px-6">
-    <h1 class="text-6xl font-extrabold mb-6">
-      تعلم اليوم وابدع غدا
-    </h1>
-
-    <p class="text-2xl mb-8">
-      منصة تعليمية ممتعة للأطفال
-    </p>
-
-    <label class="bg-white text-blue-700 px-8 py-4 rounded-2xl text-xl font-bold shadow-2xl cursor-pointer inline-block">
-      🎨 تغيير الخلفية
-      <input type="file" accept="image/*" class="hidden" onchange="changeHeroBackground(event)">
-    </label>
-  </div>
-</section>
-
-<section id="subjectContent" class="hidden max-w-5xl mx-auto mt-10 mb-20 px-6">
-
-  <div class="bg-white/95 rounded-[35px] shadow-2xl p-8">
-
-    <h2 id="subjectTitle" class="text-4xl font-extrabold text-center text-blue-700 mb-10">
-      المادة الدراسية
-    </h2>
-
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
-      <button onclick="toggleLevel('السنة الأولى')" class="bg-cyan-500 text-white py-4 rounded-2xl font-bold">🎓 السنة الأولى</button>
-      <button onclick="toggleLevel('السنة الثانية')" class="bg-cyan-500 text-white py-4 rounded-2xl font-bold">🎓 السنة الثانية</button>
-      <button onclick="toggleLevel('السنة الثالثة')" class="bg-cyan-500 text-white py-4 rounded-2xl font-bold">🎓 السنة الثالثة</button>
-      <button onclick="toggleLevel('السنة الرابعة')" class="bg-cyan-500 text-white py-4 rounded-2xl font-bold">🎓 السنة الرابعة</button>
-      <button onclick="toggleLevel('السنة الخامسة')" class="bg-cyan-500 text-white py-4 rounded-2xl font-bold">🎓 السنة الخامسة</button>
-      <button onclick="toggleLevel('السنة السادسة')" class="bg-cyan-500 text-white py-4 rounded-2xl font-bold">🎓 السنة السادسة</button>
-    </div>
-
-    <div id="levelContent" class="hidden">
-
-      <h3 id="levelTitle" class="text-3xl font-extrabold text-cyan-700 text-center mb-8"></h3>
-
-      <div class="grid md:grid-cols-3 gap-6 mb-10">
-
-        <label class="bg-red-500 text-white py-5 rounded-2xl text-center cursor-pointer font-bold">
-          📄 رفع PDF
-          <input type="file" accept=".pdf" class="hidden" onchange="showFileName(event)">
-        </label>
+        }
 
-        <label class="bg-blue-500 text-white py-5 rounded-2xl text-center cursor-pointer font-bold">
-          📊 رفع PPT
-          <input type="file" accept=".ppt,.pptx" class="hidden" onchange="showFileName(event)">
-        </label>
+        // FILE UPLOAD
 
-        <label class="bg-green-500 text-white py-5 rounded-2xl text-center cursor-pointer font-bold">
-          📝 رفع Word
-          <input type="file" accept=".doc,.docx" class="hidden" onchange="showFileName(event)">
-        </label>
-      </div>
+        async function showFileName(event) {
 
-      <div id="uploadedFiles" class="hidden bg-gray-50 rounded-3xl p-6 border border-gray-200">
-
-        <div class="flex justify-between items-center mb-5">
-          <h3 class="text-2xl font-extrabold text-emerald-600">
-            📚 الملفات المرفوعة
-          </h3>
+            const file = event.target.files[0];
 
-          <div class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-xl font-bold">
-            📁 ملفات مرتبة
-          </div>
-        </div>
+            if (!file) return;
 
-        <div id="filesList" class="space-y-5"></div>
-      </div>
-    </div>
-  </div>
-</section>
+            if (!currentSubject) {
+                alert('اختر المادة أولاً');
+                return;
+            }
 
-<footer class="bg-gray-900 text-white py-8 text-center rounded-t-[40px]">
-  © 2026 تعلم اليوم وابدع غدا
-</footer>
+            if (!currentLevel) {
+                alert('اختر السنة الدراسية');
+                return;
+            }
 
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
-import { getFirestore, collection, addDoc, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+            try {
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyAFzjnMxbcgoN2mhBhqu_RIFp5nUhGGAOw',
-  authDomain: 'school-site-a2844.firebaseapp.com',
-  projectId: 'school-site-a2844',
-  storageBucket: 'school-site-a2844.firebasestorage.app',
-  messagingSenderId: '879608507615',
-  appId: '1:879608507615:web:98decdca8a2031c15f0d6a',
-  measurementId: 'G-4MT4Z4PDW0'
-};
+                const formData = new FormData();
 
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
-const db = getFirestore(app);
+                formData.append('file', file);
+                formData.append('upload_preset', 'school_upload');
 
-let currentSubject = null;
-let currentLevel = '';
+                const response = await fetch(
+                    'https://api.cloudinary.com/v1_1/dl489hxuy/auto/upload',
+                    {
+                        method: 'POST',
+                        body: formData
+                    }
+                );
 
-function toggleSubject(subject) {
-  currentSubject = subject;
+                const data = await response.json();
 
-  const names = {
-    math: '📘 الرياضيات',
-    arabic: '📖 العربية',
-    science: '🧪 العلوم',
-    french: '🗼 الفرنسية'
-  };
-
-  document.getElementById('subjectContent').classList.remove('hidden');
-  document.getElementById('subjectTitle').innerText = names[subject];
-  document.getElementById('levelContent').classList.add('hidden');
-}
+                console.log(data);
 
-function toggleLevel(level) {
-  currentLevel = level;
+                if (!data.secure_url) {
+                    alert('فشل رفع الملف');
+                    return;
+                }
 
-  document.getElementById('levelContent').classList.remove('hidden');
-  document.getElementById('levelTitle').innerText = level;
-}
+                const fileURL = data.secure_url;
 
-function changeHeroBackground(event) {
-  const file = event.target.files[0];
+                const filesList = document.getElementById('filesList');
+                const uploadedFiles = document.getElementById('uploadedFiles');
 
-  if (!file) return;
+                uploadedFiles.classList.remove('hidden');
 
-  const reader = new FileReader();
+                const folderName = `${currentSubject}-${currentLevel}`;
 
-  reader.onload = e => {
-    document.getElementById('heroBackground').style.backgroundImage = `url('${e.target.result}')`;
-  };
+                let folder = document.getElementById(folderName);
 
-  reader.readAsDataURL(file);
-}
+                if (!folder) {
 
-function getOrCreateFolder(subject, level, title) {
-  const filesList = document.getElementById('filesList');
-  document.getElementById('uploadedFiles').classList.remove('hidden');
+                    folder = document.createElement('div');
 
-  const id = `${subject}-${level}`;
+                    folder.id = folderName;
 
-  let folder = document.getElementById(id);
+                    folder.className = 'bg-blue-50 border-2 border-cyan-300 rounded-3xl p-5';
 
-  if (!folder) {
-    folder = document.createElement('div');
-    folder.id = id;
-    folder.className = 'bg-blue-50 border-2 border-cyan-300 rounded-3xl p-5';
+                    folder.innerHTML = `
+                        <div class="flex items-center gap-3 border-b pb-3 mb-4">
 
-    folder.innerHTML = `
-      <div class="flex items-center gap-3 border-b pb-3 mb-4">
-        <div class="text-5xl">📁</div>
+                            <div class="text-5xl">📁</div>
 
-        <div>
-          <h4 class="text-2xl font-extrabold text-blue-700">${level}</h4>
-          <p class="text-gray-500">${title}</p>
-        </div>
-      </div>
+                            <div>
+                                <h4 class="text-2xl font-extrabold text-blue-700">
+                                    ${currentLevel}
+                                </h4>
 
-      <div class="folder-files space-y-4"></div>
-    `;
-
-    filesList.prepend(folder);
-  }
-
-  return folder.querySelector('.folder-files');
-}
-
-function createFileCard(fileData, folderFiles) {
-  const card = document.createElement('div');
-
-  card.className = 'bg-white rounded-2xl shadow p-4 flex justify-between items-center';
-
-  card.innerHTML = `
-    <div>
-      <div class="font-bold text-lg">${fileData.name}</div>
-      <div class="text-sm text-gray-500">تم رفع الملف بنجاح</div>
-    </div>
-
-    <div class="flex gap-2">
-      <button onclick="openFile('${fileData.data}','${fileData.type}','${fileData.name}')"
-        class="bg-blue-500 text-white px-4 py-2 rounded-xl font-bold">
-        👁 فتح
-      </button>
-
-      <a href="${fileData.data}" download="${fileData.name}"
-        class="bg-emerald-500 text-white px-4 py-2 rounded-xl font-bold">
-        ⬇ تحميل
-      </a>
-    </div>
-  `;
-
-  folderFiles.prepend(card);
-}
-
-async function showFileName(event) {
-  try {
-    const file = event.target.files[0];
-
-    if (!file) return;
-
-    if (!currentSubject) {
-      alert('اختر المادة أولاً');
-      return;
-    }
-
-    if (!currentLevel) {
-      alert('اختر السنة الدراسية');
-      return;
-    }
-
-    const storageRef = ref(storage, `files/${Date.now()}-${file.name}`);
-
-    await uploadBytes(storageRef, file);
-
-    const downloadURL = await getDownloadURL(storageRef);
-
-    const fileData = {
-      name: file.name,
-      data: downloadURL,
-      subject: currentSubject,
-      subjectTitle: document.getElementById('subjectTitle').innerText,
-      level: currentLevel,
-      type: file.type
-    };
-
-    await addDoc(collection(db, 'files'), fileData);
-
-    const folderFiles = getOrCreateFolder(
-      fileData.subject,
-      fileData.level,
-      fileData.subjectTitle
-    );
-
-    createFileCard(fileData, folderFiles);
-
-    alert('تم رفع الملف إلى الإنترنت ✅');
-
-  } catch (error) {
-    console.error(error);
-    alert('حدث خطأ أثناء رفع الملف');
-  }
-}
-
-async function loadFiles() {
-  try {
-    const querySnapshot = await getDocs(collection(db, 'files'));
-
-    querySnapshot.forEach(doc => {
-      const fileData = doc.data();
-
-      const folderFiles = getOrCreateFolder(
-        fileData.subject,
-        fileData.level,
-        fileData.subjectTitle
-      );
-
-      createFileCard(fileData, folderFiles);
-    });
-
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-function openFile(data, type) {
-  if (type.includes('pdf')) {
-    window.open(data, '_blank');
-  } else {
-    window.open(data, '_blank');
-  }
-}
-
-window.toggleSubject = toggleSubject;
-window.toggleLevel = toggleLevel;
-window.showFileName = showFileName;
-window.changeHeroBackground = changeHeroBackground;
-window.openFile = openFile;
-
-window.onload = loadFiles;
-
-console.assert(typeof window.toggleSubject === 'function', 'toggleSubject should exist');
-console.assert(typeof window.showFileName === 'function', 'showFileName should exist');
-</script>
-
-</body>
-</html>
+                                <p class="text-gray-500">
+                                    ${document.getElementById('subjectTitle').innerText}
+                                </p>
+                            </div>
